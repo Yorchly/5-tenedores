@@ -15,3 +15,6 @@ web-report/
 
 # Visual Studio
 .history/
+
+# Excluding Firebase configuration
+FireBase.js
