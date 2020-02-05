@@ -1,7 +1,7 @@
 import { createStackNavigator } from "react-navigation-stack";
 import TopRestaurantsScreens from "../screens/TopRestaurants";
 
-const TopListScreenStacks = createStackNavigator({
+const topListScreenStacks = createStackNavigator({
         TopRestaurants: {
             screen: TopRestaurantsScreens,
             navigationOptions: () => ({
@@ -11,4 +11,4 @@ const TopListScreenStacks = createStackNavigator({
     }
 );
 
-export default TopListScreenStacks;
+export default topListScreenStacks;

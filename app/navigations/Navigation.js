@@ -3,13 +3,15 @@ import { Icon, Text } from "react-native-elements";
 import { createAppContainer } from "react-navigation";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 
-import RestaurantsScreenStacks from "./RestaurantsStack";
-import TopListScreenStacks from "./TopListsStacks";
+import restaurantsScreenStacks from "./RestaurantsStack";
+import topListScreenStacks from "./TopListsStacks";
+import searchScreenStack from "./SearchStack";
+import myAccountScreenStack from "./MyAccountStack";
 
 const navigationStacks = createBottomTabNavigator(
     {
         Restaurants: {
-            screen: RestaurantsScreenStacks,
+            screen: restaurantsScreenStacks,
             navigationOptions: () => ({
                     tabBarLabel: "Restaurants",
                     tabBarIcon: ({ tintColor }) => (
@@ -20,13 +22,36 @@ const navigationStacks = createBottomTabNavigator(
         },
         
         TopList: {
-            screen: TopListScreenStacks,
+            screen: topListScreenStacks,
             navigationOptions: () => ({
                 tabBarLabel: "Ranking",
                 tabBarIcon: ({tintColor}) => (
                     <Icon type="material-community" name="star-outline" size={22} color={tintColor}/>
                 )
             })
+        },
+
+        Search: {
+            screen: searchScreenStack,
+            navigationOptions: () => (
+                {
+                    tabBarLabel: "Search",
+                    tabBarIcon: ({tintColor}) => (
+                        <Icon type="material-community" name="magnify" size={22} color={tintColor} />
+                    )
+                }
+            )
+        },
+
+        Account: {
+            screen: myAccountScreenStack,
+            // You can add dict to navigationOption without the arrow function.
+            navigationOptions: {
+                tabBarLabel: "Account",
+                tabBarIcon: ({tintColor}) => (
+                    <Icon type="material-community" name="account" size={22} color={tintColor} />
+                )
+            }
         }
     }
 );

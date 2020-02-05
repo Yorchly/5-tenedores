@@ -1,7 +1,7 @@
 import { createStackNavigator } from "react-navigation-stack";
 import RestaurantsScreen from "../screens/Restaurants";
 
-const RestaurantsScreenStacks = createStackNavigator(
+const restaurantsScreenStacks = createStackNavigator(
     {
         Restaurants: {
             screen: RestaurantsScreen,
@@ -14,4 +14,4 @@ const RestaurantsScreenStacks = createStackNavigator(
     }
 );
 
-export default RestaurantsScreenStacks;
+export default restaurantsScreenStacks;
