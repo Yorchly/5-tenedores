@@ -3,8 +3,11 @@ import { StyleSheet, View, Text, ScrollView, Image } from "react-native";
 import { Button } from "react-native-elements";
 
 export default function UserGuest() {
+    function prueba() {
+        console.log("Estoy en una prueba");
+    }
     return (
-        <ScrollView style={styles.viewBody} centerContent={true}>
+        <ScrollView style={styles.viewBody} centerContent={true} showsVerticalScrollIndicator={false}>
             <Image 
                 source={require("../../../assets/img/user-guest.jpg")} 
                 style={styles.image} 
@@ -21,7 +24,7 @@ export default function UserGuest() {
                     buttonStyle={styles.btnStyle}
                     containerStyle={styles.btnContainer}  
                     title="Ver tu perfil"
-                    onPress={() => console.log("Ir al login")}
+                    onPress={() => prueba()}
                 />
             </View>
         </ScrollView>
@@ -32,7 +35,6 @@ const styles = StyleSheet.create({
     viewBody: {
         marginLeft: 30,
         marginRight: 30,
-        marginTop: 10,
     },
 
     image: {
@@ -63,6 +65,7 @@ const styles = StyleSheet.create({
     },
 
     btnContainer: {
-        width: "70%"
+        width: "70%",
+        marginBottom: 25
     }
 })
