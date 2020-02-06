@@ -1,10 +1,18 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { StyleSheet, View, Text, ScrollView, Image } from "react-native";
+import { Button } from "react-native-elements";
 
 export default function UserGuest() {
     return (
-        <View>
-            <Text>User guest page</Text>
-        </View>
+        <ScrollView style={styles.viewBody} centerContent={true}>
+            <Image source={require("@images/user-guest.jpg")}/>
+        </ScrollView>
     );
 }
+
+const styles = StyleSheet.create({
+    viewBody: {
+        marginLeft: 30,
+        marginRight: 30
+    }
+})
