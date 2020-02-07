@@ -18,3 +18,6 @@ web-report/
 
 # Excluding Firebase configuration
 FireBase.js
+
+# Excluding WebStorm configuration
+.idea
