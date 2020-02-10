@@ -17,7 +17,7 @@ web-report/
 .history/
 
 # Excluding Firebase configuration
-FireBase.js
+app/utils/FireBase.js
 
 # Excluding WebStorm configuration
 .idea

@@ -34,6 +34,7 @@ export default withNavigation(UserGuest);
 
 const styles = StyleSheet.create({
     viewBody: {
+        paddingTop: "3%",
         marginLeft: 30,
         marginRight: 30,
     },
@@ -69,4 +70,4 @@ const styles = StyleSheet.create({
         width: "70%",
         marginBottom: 25
     }
-})
+});

@@ -9,12 +9,14 @@
   },
   "dependencies": {
     "@react-native-community/masked-view": "0.1.5",
+    "add": "^2.0.6",
     "babel-plugin-module-resolver": "4.0.0",
     "expo": "~36.0.0",
     "firebase": "7.8.0",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
+    "react-native-easy-toast": "1.2.0",
     "react-native-elements": "1.2.7",
     "react-native-gesture-handler": "~1.5.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.1",
@@ -24,7 +26,8 @@
     "react-native-web": "~0.11.7",
     "react-navigation": "4.1.0",
     "react-navigation-stack": "2.1.0",
-    "react-navigation-tabs": "2.7.0"
+    "react-navigation-tabs": "2.7.0",
+    "yarn": "^1.22.0"
   },
   "devDependencies": {
     "@babel/core": "7.0.0",
