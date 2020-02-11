@@ -20,10 +20,6 @@ export default function Login(props) {
                 <LoginForm toastRef={toastRef}/>
                 <RegisterComponent navigation={navigation}/>
             </View>
-            <Divider style={styles.divider}/>
-            <View style={styles.container}>
-                <Text>Login Facebook...</Text>
-            </View>
             <Toast
                 ref={toastRef}
                 position={"top"}
@@ -58,11 +54,6 @@ const styles = StyleSheet.create({
     container: {
         marginRight: 40,
         marginLeft: 40
-    },
-
-    divider: {
-        backgroundColor: "#00a680",
-        margin: 20
     },
 
     centeringContainer: {

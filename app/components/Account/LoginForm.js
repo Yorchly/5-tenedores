@@ -24,7 +24,7 @@ function LoginForm(props) {
                     const response = await firebase.auth().signInWithEmailAndPassword(email, password);
                     navigation.navigate("Account");
                 }catch(error) {
-                    toastRef.current.show("ERROR! ",error.message);
+                    toastRef.current.show("ERROR! " + error.message);
                 }
 
             }
