@@ -1,10 +1,14 @@
-import React from "react";
+import React, {useRef} from "react";
 import { StyleSheet, View, ScrollView, Text, Image } from "react-native";
 import { Divider, Button } from "react-native-elements";
+import LoginForm from "../../components/Account/LoginForm";
+import Toast from "react-native-easy-toast";
+
 
 // Props are the same that UserGuest (withNavigation props)
 export default function Login(props) {
     const { navigation } = props;
+    const toastRef = useRef();
     return(
         <ScrollView showsVerticalScrollIndicator={false}>
             <Image
@@ -13,13 +17,18 @@ export default function Login(props) {
                 resizeMode="contain"
             />
             <View style={styles.container}>
-                <Text>Form Login...</Text>
+                <LoginForm toastRef={toastRef}/>
                 <RegisterComponent navigation={navigation}/>
             </View>
             <Divider style={styles.divider}/>
             <View style={styles.container}>
                 <Text>Login Facebook...</Text>
             </View>
+            <Toast
+                ref={toastRef}
+                position={"top"}
+                opacity={0.8}
+            />
         </ScrollView>
     );
 }
@@ -29,10 +38,10 @@ function RegisterComponent(props) {
 
     return (
         <View style={styles.centeringContainer}>
-            <Button 
-                style={styles.registerBtn} 
+            <Button
                 title="Registrate" 
                 onPress={() => navigation.navigate("Register")}
+                containerStyle={styles.btnContainerRegister}
             />
         </View>
     )
@@ -62,4 +71,9 @@ const styles = StyleSheet.create({
         paddingTop: 20,
 
     },
+
+    btnContainerRegister: {
+        marginTop: 10,
+        width: "95%"
+    }
 });
