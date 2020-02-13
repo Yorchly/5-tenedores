@@ -30,7 +30,7 @@ export default function UserLogged() {
                 toastRef = {toastRef}
             />
 
-            <AccountOptions/>
+            <AccountOptions userInfo={userInfo} setReloadData={setReloadData} toastRef={toastRef}/>
 
             <Button
                 title={"Cerrar sesión"}

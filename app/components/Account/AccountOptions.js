@@ -1,8 +1,16 @@
-import React from "react";
+import React, {useState} from "react";
 import {StyleSheet, View, Text} from "react-native";
 import {ListItem} from "react-native-elements";
+import Modal from "../Modal";
+import ChangeDisplayNameForm from "./ChangeDisplayNameForm";
+import ChangeEmailForm from "./ChangeEmailForm";
+import ChangePasswordForm from "./ChangePasswordForm";
 
-export default function AccountOptions() {
+export default function AccountOptions(props) {
+    const {userInfo, setReloadData, toastRef} = props;
+
+    const [modalOpened, setModalOpened] = useState(false);
+    const [children, setChildren] = useState(null);
 
     const menuOptions = [
         {
@@ -12,7 +20,7 @@ export default function AccountOptions() {
             iconColorLeft: "#ccc",
             iconNameRight: "chevron-right",
             iconColorRight: "#ccc",
-            onPress: () => console.log("Cambiar nombre y apellidos")
+            onPress: () => selectedComponent("name-surname")
         },
         {
             title: "Cambiar Email",
@@ -21,7 +29,7 @@ export default function AccountOptions() {
             iconColorLeft: "#ccc",
             iconNameRight: "chevron-right",
             iconColorRight: "#ccc",
-            onPress: () => console.log("Cambiar email")
+            onPress: () => selectedComponent("email")
         },
         {
             title: "Cambiar contraseña",
@@ -30,10 +38,36 @@ export default function AccountOptions() {
             iconColorLeft: "#ccc",
             iconNameRight: "chevron-right",
             iconColorRight: "#ccc",
-            onPress: () => console.log("Cambiar contraseña")
+            onPress: () => selectedComponent("password")
         }
 
     ];
+
+    const selectedComponent = (key) => {
+        switch (key) {
+            case "name-surname":
+                setChildren(
+                    <ChangeDisplayNameForm
+                        displayName={userInfo.displayName}
+                        setModalOpened={setModalOpened}
+                        setReloadData={setReloadData}
+                        toastRef={toastRef}
+                    />);
+                setModalOpened(true);
+                break;
+            case "email":
+                setChildren(ChangeEmailForm);
+                setModalOpened(true);
+                break;
+            case "password":
+                setChildren(ChangePasswordForm);
+                setModalOpened(true);
+                break;
+            default:
+                break;
+
+        }
+    };
 
     return (
         <View>
@@ -55,6 +89,12 @@ export default function AccountOptions() {
                     containerStyle={styles.menuItem}
                 />
             ))}
+
+            { children && (
+                <Modal isVisible={modalOpened} setIsVisible={setModalOpened}>
+                    {children}
+                </Modal>
+            )}
         </View>
     )
 }
