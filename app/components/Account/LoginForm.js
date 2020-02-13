@@ -5,6 +5,7 @@ import {withNavigation} from "react-navigation";
 import {validateEmail} from "../../utils/Validations";
 import Loading from "../Loading";
 import * as firebase from "firebase";
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 
 function LoginForm(props) {
     const {navigation, toastRef} = props;
@@ -15,20 +16,18 @@ function LoginForm(props) {
 
     const authentication = async () => {
         setVisibleLoading(true);
-        if(!email || !password) {
+        if (!email || !password) {
             toastRef.current.show("Los dos campos son requeridos");
-        }
-        else {
+        } else {
             if (validateEmail(email)) {
                 try {
                     const response = await firebase.auth().signInWithEmailAndPassword(email, password);
                     navigation.navigate("Account");
-                }catch(error) {
+                } catch (error) {
                     toastRef.current.show("ERROR! " + error.message);
                 }
 
-            }
-            else {
+            } else {
                 toastRef.current.show("¡Email no valido!");
             }
         }
