@@ -17,7 +17,7 @@ export default function AccountOptions(props) {
             title: "Cambiar nombre y apellidos",
             iconType: "material-community",
             iconNameLeft: "account-circle",
-            iconColorLeft: "#ccc",
+            iconColorLeft: "#00a680",
             iconNameRight: "chevron-right",
             iconColorRight: "#ccc",
             onPress: () => selectedComponent("name-surname")
@@ -26,7 +26,7 @@ export default function AccountOptions(props) {
             title: "Cambiar Email",
             iconType: "material-community",
             iconNameLeft: "email",
-            iconColorLeft: "#ccc",
+            iconColorLeft: "#00a680",
             iconNameRight: "chevron-right",
             iconColorRight: "#ccc",
             onPress: () => selectedComponent("email")
@@ -35,7 +35,7 @@ export default function AccountOptions(props) {
             title: "Cambiar contraseña",
             iconType: "material-community",
             iconNameLeft: "lock-reset",
-            iconColorLeft: "#ccc",
+            iconColorLeft: "#00a680",
             iconNameRight: "chevron-right",
             iconColorRight: "#ccc",
             onPress: () => selectedComponent("password")
@@ -56,7 +56,14 @@ export default function AccountOptions(props) {
                 setModalOpened(true);
                 break;
             case "email":
-                setChildren(ChangeEmailForm);
+                setChildren(
+                    <ChangeEmailForm
+                        email={userInfo.email}
+                        setModalOpened={setModalOpened}
+                        setReloadData={setReloadData}
+                        toastRef={toastRef}
+                    />
+                );
                 setModalOpened(true);
                 break;
             case "password":

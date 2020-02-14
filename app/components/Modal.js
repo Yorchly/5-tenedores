@@ -1,7 +1,6 @@
 import React from "react";
 import {StyleSheet} from "react-native";
 import {Overlay} from "react-native-elements";
-import View from "react-native-web/dist/exports/View";
 
 export default function Modal(props) {
     const {isVisible, setIsVisible, children} = props;
