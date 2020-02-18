@@ -15,20 +15,18 @@ function LoginForm(props) {
 
     const authentication = async () => {
         setVisibleLoading(true);
-        if(!email || !password) {
+        if (!email || !password) {
             toastRef.current.show("Los dos campos son requeridos");
-        }
-        else {
+        } else {
             if (validateEmail(email)) {
                 try {
                     const response = await firebase.auth().signInWithEmailAndPassword(email, password);
                     navigation.navigate("Account");
-                }catch(error) {
+                } catch (error) {
                     toastRef.current.show("ERROR! " + error.message);
                 }
 
-            }
-            else {
+            } else {
                 toastRef.current.show("¡Email no valido!");
             }
         }

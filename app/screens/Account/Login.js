@@ -10,7 +10,7 @@ export default function Login(props) {
     const { navigation } = props;
     const toastRef = useRef();
     return(
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
             <Image
                 source={require("../../../assets/img/5-tenedores-letras-icono-logo.png")}
                 style={styles.logo}
@@ -64,7 +64,8 @@ const styles = StyleSheet.create({
     },
 
     btnContainerRegister: {
-        marginTop: 10,
+        marginBottom: 30,
         width: "95%"
-    }
+    },
+
 });

@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {StyleSheet, View} from "react-native";
+import {StyleSheet, View, TextInput} from "react-native";
 import {Input, Icon, Button} from "react-native-elements";
 import {validateEmail} from "../../utils/Validations";
 import Loading from "../Loading";
@@ -15,25 +15,22 @@ function RegisterForm(props) {
     const [repeatPassword, setRepeatPassword] = useState("");
     const [isVisibleLoading, setLoadingVisible] = useState(false);
 
-    const register = async() => {
+    const register = async () => {
         setLoadingVisible(true);
         if (!email || !password || !repeatPassword) {
             toastRef.current.show("Todos los campos son obligatorios", 1000);
-        }
-        else {
-            if(!validateEmail(email)) {
+        } else {
+            if (!validateEmail(email)) {
                 toastRef.current.show("Email incorrecto", 1000);
-            }
-            else if(password !== repeatPassword) {
+            } else if (password !== repeatPassword) {
                 toastRef.current.show("Las contraseñas no son iguales", 1000);
-            }
-            else {
+            } else {
                 await firebase.auth().createUserWithEmailAndPassword(
                     email, password
                 ).then(() => {
                     navigation.navigate("Account");
-                }).catch((error)=>{
-                    toastRef.current.show("ERROR! "+ error.message, 2500);
+                }).catch((error) => {
+                    toastRef.current.show("ERROR! " + error.message, 2500);
                 });
             }
         }
@@ -75,7 +72,7 @@ function RegisterForm(props) {
                 onChange={e => setRepeatPassword(e.nativeEvent.text)}
                 rightIcon={
                     <Icon
-                        name={isHideRepeatPassword ? "eye-outline": "eye-off-outline"}
+                        name={isHideRepeatPassword ? "eye-outline" : "eye-off-outline"}
                         type={"material-community"}
                         iconStyle={styles.iconRight}
                         onPress={() => setHideRepeatPassword(!isHideRepeatPassword)}
