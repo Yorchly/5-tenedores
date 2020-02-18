@@ -1,6 +1,5 @@
 import React, {useRef} from "react";
-import { StyleSheet, View, Image, Text } from "react-native";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {StyleSheet, View, Image, Text, ScrollView} from "react-native";
 import Toast from "react-native-easy-toast";
 import RegisterForm from "../../components/Account/RegisterForm";
 
@@ -8,7 +7,7 @@ export default function Register() {
     const toastRef = useRef();
 
     return (
-        <KeyboardAwareScrollView>
+        <ScrollView>
             <Image 
                 source={require("../../../assets/img/5-tenedores-letras-icono-logo.png")}
                 style={styles.logo}
@@ -22,7 +21,7 @@ export default function Register() {
                 position={"top"}
                 opacity={0.8}
             />
-        </KeyboardAwareScrollView>
+        </ScrollView>
     )
 }
 
@@ -31,7 +30,7 @@ const styles = StyleSheet.create(
         logo: {
             width: "100%",
             height: 150,
-            marginTop: 20
+            marginTop: 20,
         },
 
         viewForm: {

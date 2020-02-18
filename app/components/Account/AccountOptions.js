@@ -67,7 +67,13 @@ export default function AccountOptions(props) {
                 setModalOpened(true);
                 break;
             case "password":
-                setChildren(ChangePasswordForm);
+                setChildren(
+                    <ChangePasswordForm
+                        setModalOpened={setModalOpened}
+                        setReloadData={setReloadData}
+                        toastRef={toastRef}
+                    />
+                );
                 setModalOpened(true);
                 break;
             default:

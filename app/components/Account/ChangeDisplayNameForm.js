@@ -1,7 +1,9 @@
 import React, {useState} from "react";
-import {View, StyleSheet} from "react-native";
+import {View,} from "react-native";
 import {Input, Button} from "react-native-elements";
 import * as firebase from "firebase";
+import {modalFormStyles} from "../../constants/Common";
+import FormsInputs, {BuildIcon} from "../../constants/FormsInputs";
 
 export default function ChangeDisplayNameForm(props) {
 
@@ -32,47 +34,27 @@ export default function ChangeDisplayNameForm(props) {
     };
 
     return (
-        <View style={styles.view}>
+        <View style={modalFormStyles.view}>
             <Input
+                label={"Nombre y apellidos"}
                 placeholder={"Nombre y apellidos"}
-                containerStyle={styles.input}
+                containerStyle={modalFormStyles.input}
                 defaultValue={displayName && displayName}
                 onChange={e => setNewDisplayName(e.nativeEvent.text)}
-                rightIcon={{
-                    type: "material-community",
-                    name: "account-circle-outline",
-                    color: "#c2c2c2"
-                }}
+                rightIcon={BuildIcon(
+                    FormsInputs.typeOfIcon,
+                    FormsInputs.userIcon,
+                    FormsInputs.iconColor
+                )}
                 errorMessage={error}
             />
             <Button
                 title={"Cambiar nombre"}
-                containerStyle={styles.btnContainer}
-                buttonStyle={styles.btn}
+                containerStyle={modalFormStyles.btnContainer}
+                buttonStyle={modalFormStyles.btn}
                 onPress={updateDisplayName}
                 loading={isLoading}
             />
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    view: {
-        alignItems: "center",
-        paddingTop: 10,
-        paddingBottom: 10
-    },
-
-    input: {
-        marginBottom: 10
-    },
-
-    btnContainer: {
-        marginTop: 20,
-        width: "95%"
-    },
-
-    btn: {
-        backgroundColor: "#00a680"
-    }
-});

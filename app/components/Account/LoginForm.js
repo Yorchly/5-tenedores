@@ -5,7 +5,6 @@ import {withNavigation} from "react-navigation";
 import {validateEmail} from "../../utils/Validations";
 import Loading from "../Loading";
 import * as firebase from "firebase";
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 
 function LoginForm(props) {
     const {navigation, toastRef} = props;

@@ -79,7 +79,6 @@ function RegisterForm(props) {
                     />
                 }
             />
-            <TextInput placeholder={"prueba"} style={styles.inputForm}/>
 
             <Button
                 title={"Unirse"}

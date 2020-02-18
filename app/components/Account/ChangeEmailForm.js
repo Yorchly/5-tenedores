@@ -1,8 +1,10 @@
 import React, {useState} from "react";
 import {View, StyleSheet} from "react-native";
-import {Input, Button, Icon} from "react-native-elements";
+import {Input, Button, Icon, Text} from "react-native-elements";
 import * as firebase from "firebase";
 import {validateEmail} from "../../utils/Validations";
+import FormsInputs, {BuildIcon} from "../../constants/FormsInputs";
+import {modalFormStyles} from "../../constants/Common";
 
 export default function ChangeEmailForm(props) {
     const {email, setModalOpened, setReloadData, toastRef} = props;
@@ -28,8 +30,6 @@ export default function ChangeEmailForm(props) {
               firebase.auth().currentUser.email, password
             );
 
-            console.log(credential);
-
             firebase.auth().currentUser.reauthenticateWithCredential(credential).then(() => {
                 firebase.auth().currentUser.updateEmail(newEmail).then(() => {
                     setIsLoading(false);
@@ -48,65 +48,57 @@ export default function ChangeEmailForm(props) {
     };
 
     return (
-      <View style={styles.view}>
-          <Input
-            placeholder={"Email"}
-            containerStyle={styles.input}
-            defaultValue={email}
-            onChange={e => setNewEmail(e.nativeEvent.text)}
-            rightIcon={{
-                type: "material-community",
-                name: "at",
-                color: "#c2c2c2"
-            }}
-            errorMessage={errorEmail}
-          />
+        <View style={modalFormStyles.view}>
+            <Input
+                placeholder={"Email"}
+                label={"Correo electrónico"}
+                containerStyle={styles.input}
+                defaultValue={email}
+                onChange={e => setNewEmail(e.nativeEvent.text)}
+                rightIcon={BuildIcon(
+                    FormsInputs.typeOfIcon,
+                    FormsInputs.emailIconName,
+                    FormsInputs.iconColor
+                )}
+                errorMessage={errorEmail}
+            />
 
-          <Input
-              placeholder={"Contraseña"}
-              containerStyle={styles.input}
-              password={true}
-              secureTextEntry={passwordVisible}
-              onChange={e => setPassword(e.nativeEvent.text)}
-              rightIcon={
+            <Input
+                placeholder={"Contraseña"}
+                label={"Contraseña"}
+                containerStyle={styles.input}
+                password={true}
+                secureTextEntry={passwordVisible}
+                onChange={e => setPassword(e.nativeEvent.text)}
+                rightIcon={
                   <Icon
-                      name={passwordVisible ? "eye-outline" : "eye-off-outline"}
-                      type={"material-community"}
-                      color={"#c2c2c2"}
+                      name={passwordVisible ? FormsInputs.passwordNotVisibleIconName : FormsInputs.passwordVisibleIconName}
+                      type={FormsInputs.typeOfIcon}
+                      color={FormsInputs.iconColor}
                       onPress={() => setPasswordVisible(!passwordVisible)}
                   />
-              }
-              errorMessage={errorPassword}
-          />
+                }
+                errorMessage={errorPassword}
+            />
 
-          <Button
-            title={"Cambiar email"}
-            buttonStyle={styles.btn}
-            containerStyle={styles.btnContainer}
-            onPress={changeEmail}
-            loading={isLoading}
-          />
-      </View>
+            <Text style={modalFormStyles.textModal}>
+              Necesitas introducir la contraseña de nuevo para cambiar el correo
+            </Text>
+
+            <Button
+                title={"Cambiar email"}
+                buttonStyle={modalFormStyles.btn}
+                containerStyle={modalFormStyles.btnContainer}
+                onPress={changeEmail}
+                loading={isLoading}
+            />
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
-    view: {
-        alignItems: "center",
-        paddingTop: 10,
-        paddingBottom: 10
-    },
-
     input: {
-        marginBottom: 10
-    },
-
-    btnContainer: {
-        marginTop: 20,
-        width: "95%"
-    },
-
-    btn: {
-        backgroundColor: "#00a680"
+        ...modalFormStyles.input,
+        marginTop: 10
     }
 });
