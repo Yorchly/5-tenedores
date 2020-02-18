@@ -58,7 +58,7 @@ const navigationStacks = createBottomTabNavigator(
     {
         // These are optional arguments to configure the bottom navigation.
         // Initial Route showed the first time you open the app.
-        initialRouteName: "Account",
+        initialRouteName: "Restaurants",
         // The key name in the list must be the same that key name in createBottomTabNavigator dict.
         order: ["Restaurants", "TopList", "Search", "Account"],
         tabBarOptions: {
