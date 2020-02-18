@@ -23,7 +23,7 @@ export default function ChangePasswordForm(props) {
         setErrorPassword(null);
         if(!password || !newPassword || !repeatNewPassword) {
             setErrorPassword("*Campo requerido");
-            setErrorNewPassword("*Campos requeridos");
+            setErrorNewPassword("*Campo requerido");
         }
         else if(newPassword !== repeatNewPassword)
             setErrorNewPassword("Las contraseñas no coinciden");
