@@ -1,28 +1,28 @@
-// module.exports = function(api) {
-//   api.cache(true);
-//   return {
-//     presets: ['babel-preset-expo'],
-//   };
-// };
-
-module.exports = function (api) {
-  api.cache(true);
-  return {
-    presets: ['babel-preset-expo'],
+module.exports = {
+    presets: ['module:metro-react-native-babel-preset', 'babel-preset-expo'],
     plugins: [
-      ["module-resolver", {
-        "root": ["./"],
-        "extensions": [".js", ".jsx", ".es", ".es6", ".mjs"],
-        "alias": {
-          "@store": "./app/store",
-          "@screens": "./app/screens", 
-          "@components": "./app/components", 
-          "@assets": "./assets",
-          "@constants": "./constants",
-          "@utils": "./app/utils",
-          "@images": "./assets/img"
-        }
-      }]
-    ]
-  };
+        [
+            'module-resolver',
+            {
+                root: ['./app'],
+                extensions: [
+                    '.ios.js',
+                    '.android.js',
+                    '.js',
+                    '.ios.jsx',
+                    '.android.jsx',
+                    '.jsx',
+                    '.js',
+                    '.json',
+                ],
+                alias: {
+                    "@screens": './app/screens',
+                    "@navigation": './app/navigations',
+                    "@components": './app/components',
+                    "@utils": './app/utils',
+                    "@constants": './app/constants',
+                },
+            },
+        ],
+    ],
 };

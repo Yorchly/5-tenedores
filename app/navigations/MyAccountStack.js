@@ -8,7 +8,7 @@ const myAccountScreenStack = createStackNavigator(
         Account: {
             screen: MyAccountScreen,
             navigationOptions: {
-                title: "My Account"
+                title: "Mi cuenta"
             }
         },
 
@@ -22,7 +22,7 @@ const myAccountScreenStack = createStackNavigator(
         Register: {
             screen: RegisterScreen,
             navigationOptions: {
-                title: "Register"
+                title: "Registro"
             }
         }
 

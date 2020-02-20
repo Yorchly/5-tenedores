@@ -1,7 +1,7 @@
 import React, {useRef} from "react";
 import {StyleSheet, View, Image, Text, ScrollView} from "react-native";
 import Toast from "react-native-easy-toast";
-import RegisterForm from "../../components/Account/RegisterForm";
+import RegisterForm from "@components/Account/RegisterForm";
 
 export default function Register() {
     const toastRef = useRef();

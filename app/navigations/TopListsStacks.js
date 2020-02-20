@@ -5,7 +5,7 @@ const topListScreenStacks = createStackNavigator({
         TopRestaurants: {
             screen: TopRestaurantsScreens,
             navigationOptions: () => ({
-                title: "Top Restaurants"
+                title: "Top restaurantes"
             })
         }
     }

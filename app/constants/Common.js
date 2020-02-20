@@ -1,9 +1,15 @@
 import {StyleSheet} from "react-native";
 
 const corporateColor = "#00a680";
+const inactiveColor = "#646464";
+const greyColor = "#7a7a7a";
+const whiteIconColor = "#e3e3e3";
 
 export default{
-    corporateColor: corporateColor
+    corporateColor: corporateColor,
+    inactiveColor: inactiveColor,
+    greyColor: greyColor,
+    whiteIconColor: whiteIconColor,
 };
 
 
@@ -31,5 +37,11 @@ export const modalFormStyles = StyleSheet.create({
         paddingLeft: 10,
         fontSize: 15,
         fontWeight: "bold"
+    }
+});
+
+export const commonStyles = StyleSheet.create({
+    view: {
+        flex: 1
     }
 });

@@ -1,5 +1,5 @@
 import React from "react";
-import { Icon, Text } from "react-native-elements";
+import { Icon } from "react-native-elements";
 import { createAppContainer } from "react-navigation";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 
@@ -7,13 +7,14 @@ import restaurantsScreenStacks from "./RestaurantsStack";
 import topListScreenStacks from "./TopListsStacks";
 import searchScreenStack from "./SearchStack";
 import myAccountScreenStack from "./MyAccountStack";
+import Common from "../constants/Common";
 
 const navigationStacks = createBottomTabNavigator(
     {
         Restaurants: {
             screen: restaurantsScreenStacks,
             navigationOptions: () => ({
-                    tabBarLabel: "Restaurants",
+                    tabBarLabel: "Restaurante",
                     tabBarIcon: ({ tintColor }) => (
                         <Icon type="material-community" name="compass-outline" size={22} color={tintColor}/>
                     )
@@ -35,7 +36,7 @@ const navigationStacks = createBottomTabNavigator(
             screen: searchScreenStack,
             navigationOptions: () => (
                 {
-                    tabBarLabel: "Search",
+                    tabBarLabel: "Buscar",
                     tabBarIcon: ({ tintColor }) => (
                         <Icon type="material-community" name="magnify" size={22} color={tintColor} />
                     )
@@ -47,7 +48,7 @@ const navigationStacks = createBottomTabNavigator(
             screen: myAccountScreenStack,
             // You can add dict to navigationOption without the arrow function.
             navigationOptions: {
-                tabBarLabel: "Account",
+                tabBarLabel: "Cuenta",
                 tabBarIcon: ({ tintColor }) => (
                     <Icon type="material-community" name="account" size={22} color={tintColor} />
                 )
@@ -62,8 +63,8 @@ const navigationStacks = createBottomTabNavigator(
         // The key name in the list must be the same that key name in createBottomTabNavigator dict.
         order: ["Restaurants", "TopList", "Search", "Account"],
         tabBarOptions: {
-            inactiveTintColor: "#646464",
-            activeTintColor: "#00a680"
+            inactiveTintColor: Common.inactiveColor,
+            activeTintColor: Common.corporateColor
         }
 
     }

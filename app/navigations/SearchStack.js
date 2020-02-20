@@ -6,7 +6,7 @@ const searchScreenStack = createStackNavigator(
         Search: {
             screen: SearchScreen,
             navigationOptions: () => ({
-                title: "Search"
+                title: "Buscar"
             })
         }
     }
