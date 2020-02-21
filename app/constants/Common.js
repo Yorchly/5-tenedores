@@ -43,5 +43,10 @@ export const modalFormStyles = StyleSheet.create({
 export const commonStyles = StyleSheet.create({
     view: {
         flex: 1
+    },
+
+    title: {
+        fontSize: 25,
+        fontWeight: "bold"
     }
 });

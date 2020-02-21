@@ -51,13 +51,13 @@ const UploadImage = (props) => {
     };
 
     /**
-     * Remove a image.
+     * Remove and update the images shown.
      * @param imageURI
      */
     const removeImageSelected = (imageURI) => {
         Alert.alert(
             "Eliminar imagen",
-            "¿Estás seguro de que quieres eliminar la imágen?",
+            "¿Estás seguro de que quieres eliminar la imagen?",
             [
                 {
                     text: "Atrás",
