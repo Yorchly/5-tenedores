@@ -42,9 +42,7 @@ export default function ChangeDisplayNameForm(props) {
                 defaultValue={displayName && displayName}
                 onChange={e => setNewDisplayName(e.nativeEvent.text)}
                 rightIcon={BuildIcon(
-                    FormsInputs.typeOfIcon,
-                    FormsInputs.userIcon,
-                    FormsInputs.iconColor
+                    FormsInputs.userIcon
                 )}
                 errorMessage={error}
             />

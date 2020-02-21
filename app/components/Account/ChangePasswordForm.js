@@ -66,6 +66,7 @@ export default function ChangePasswordForm(props) {
                         color={FormsInputs.iconColor}
                         onPress={() => setPasswordVisible(!passwordVisible)}
                     />
+
                 }
                 errorMessage={errorPassword}
             />

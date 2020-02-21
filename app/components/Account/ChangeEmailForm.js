@@ -56,9 +56,7 @@ export default function ChangeEmailForm(props) {
                 defaultValue={email}
                 onChange={e => setNewEmail(e.nativeEvent.text)}
                 rightIcon={BuildIcon(
-                    FormsInputs.typeOfIcon,
                     FormsInputs.emailIconName,
-                    FormsInputs.iconColor
                 )}
                 errorMessage={errorEmail}
             />

@@ -1,15 +1,19 @@
-import {StyleSheet} from "react-native";
+import {StyleSheet, Dimensions} from "react-native";
 
 const corporateColor = "#00a680";
 const inactiveColor = "#646464";
 const greyColor = "#7a7a7a";
 const whiteIconColor = "#e3e3e3";
+const deviceWidth = Dimensions.get("window").width;
+const skipArgument = undefined;
 
 export default{
     corporateColor: corporateColor,
     inactiveColor: inactiveColor,
     greyColor: greyColor,
     whiteIconColor: whiteIconColor,
+    deviceWidth: deviceWidth,
+    skipArgument: skipArgument
 };
 
 

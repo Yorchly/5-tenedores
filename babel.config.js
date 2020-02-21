@@ -21,6 +21,7 @@ module.exports = {
                     "@components": './app/components',
                     "@utils": './app/utils',
                     "@constants": './app/constants',
+                    "@images": "./assets/img"
                 },
             },
         ],

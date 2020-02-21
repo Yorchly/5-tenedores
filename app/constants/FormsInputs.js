@@ -1,16 +1,20 @@
+const type = "material-community";
+const color = "#c2c2c2";
+
 export default {
-    typeOfIcon: "material-community",
+    typeOfIcon: type,
     emailIconName: "at",
     passwordNotVisibleIconName: "eye-outline",
     passwordVisibleIconName: "eye-off-outline",
     userIcon: "account-circle-outline",
-    iconColor: "#c2c2c2"
+    iconColor: color
 };
 
-export const BuildIcon = (iconType, iconName, iconColor) => {
+export const BuildIcon = (iconName, iconType=type, iconColor=color, onPress=()=>{}) => {
     return {
-        type: iconType,
         name: iconName,
-        color: iconColor
+        type: iconType,
+        color: iconColor,
+        onPress: onPress
     };
 };

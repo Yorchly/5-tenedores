@@ -12,29 +12,6 @@ export default function AddRestaurant(props) {
     const [isLoading, setIsLoading] = useState(false);
     return (
         <View>
-            <View style={styles.titleContainer}>
-                <Text style={styles.title}>Añadir imagen</Text>
-                <Tooltip
-                    height={250}
-                    popover={
-                        <Text style={styles.tooltipText}>
-                            Para añadir imagen, haga click sobre el recuadro con el icono de la cámara que aparece
-                            debajo.
-                            {"\n"}
-                            {"\n"}
-                            Para eliminar imagen, haga click sobre la imagen que desea eliminar.
-                            {"\n"}
-                            {"\n"}
-                            Puede subir como máximo 5 imágenes.
-                        </Text>
-                    }>
-                    <Icon
-                        type={"material-community"}
-                        name={"information-outline"}
-                        iconStyle={styles.titleIcon}
-                    />
-                </Tooltip>
-            </View>
             <AddRestaurantForm navigation={navigation} toastRef={toastRef} setIsLoading={setIsLoading}/>
             <Toast ref={toastRef} position={"center"} opacity={0.8}/>
             <Loading isVisible={isLoading} text={"Añadiendo restaurante"}/>
@@ -48,6 +25,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         marginTop: 20,
         marginLeft: 20,
+        marginBottom: 20,
         alignItems: "center"
     },
 
