@@ -3,6 +3,7 @@ import {View, ScrollView, Alert, StyleSheet, Text} from "react-native";
 import {Icon, Avatar, Image, Input, Button, Tooltip} from "react-native-elements";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
+import * as Location from "expo-location";
 import MapView from "react-native-maps";
 
 import Common, {commonStyles} from "@constants/Common";
@@ -23,6 +24,8 @@ export default function AddRestaurantForm(props) {
     const [restaurantName, setRestaurantName] = useState("");
     const [restaurantLocation, setRestaurantLocation] = useState("");
     const [restaurantDescription, setRestaurantDescription] = useState("");
+    const [isVisibleMap, setIsVisibleMap] = useState(false);
+    const [locationRestaurant, setLocationRestaurant] = useState("");
 
     useEffect(() => {
         setImagesSelected(imagesSelected);
@@ -69,6 +72,15 @@ export default function AddRestaurantForm(props) {
                 setRestaurantName={setRestaurantName}
                 setRestaurantLocation={setRestaurantLocation}
                 setRestaurantDescription={setRestaurantDescription}
+                setIsVisibleMap={setIsVisibleMap}
+                locationRestaurant={locationRestaurant}
+                toastRef={toastRef}
+            />
+            <Map
+                isVisibleMap={isVisibleMap}
+                setIsVisibleMap={setIsVisibleMap}
+                setLocationRestaurant={setLocationRestaurant}
+                toastRef={toastRef}
             />
 
         </ScrollView>
@@ -187,7 +199,14 @@ const UploadImage = (props) => {
  * @constructor
  */
 const AddForm = (props) => {
-    const {setRestaurantName, setRestaurantLocation, setRestaurantDescription} = props;
+    const {
+        setRestaurantName,
+        setRestaurantLocation,
+        setRestaurantDescription,
+        setIsVisibleMap,
+        locationRestaurant,
+        toastRef
+    } = props;
     return(
         <View style={styles.viewForm}>
             <Input
@@ -201,7 +220,20 @@ const AddForm = (props) => {
                 placeholder={"Dirección"}
                 containerStyle={styles.input}
                 onChange={e => setRestaurantLocation(e.nativeEvent.text)}
-                rightIcon={BuildIcon("map-marker", Common.skipArgument, Common.skipArgument, ()=>console.log("mapa"))}
+                rightIcon={BuildIcon(
+                    "map-marker",
+                    Common.skipArgument,
+                    locationRestaurant ? Common.corporateColor : Common.greyColor,
+                    async () => {
+                        let resultPermissions = await Permissions.askAsync(Permissions.LOCATION);
+                        const statusPermissions = resultPermissions.permissions.location.status;
+                        if(statusPermissions !== "granted")
+                            toastRef.current.show("Permisos de localización denegados. Activalos desde ajustes para utilizar" +
+                                " la geolocalización", 3500);
+                        else
+                            setIsVisibleMap(true)
+                    }
+                )}
             />
 
             <Input
@@ -213,6 +245,74 @@ const AddForm = (props) => {
                 onChange={e => setRestaurantDescription(e.nativeEvent.text)}
             />
         </View>
+    )
+};
+
+/**
+ *
+ * @param props
+ * @constructor
+ */
+const Map = (props) => {
+    const {isVisibleMap, setIsVisibleMap, setLocationRestaurant, toastRef} = props;
+    const [location, setLocation] = useState(null);
+
+    useEffect(() => {
+        (async () => {
+            let resultPermissions = await Permissions.getAsync(Permissions.LOCATION);
+            const statusPermissions = resultPermissions.permissions.location.status;
+
+            if(statusPermissions === "granted") {
+                const loc = await Location.getCurrentPositionAsync({});
+                setLocation({
+                    latitude: loc.coords.latitude,
+                    longitude: loc.coords.longitude,
+                    latitudeDelta: 0.001,
+                    longitudeDelta: 0.001,
+                });
+            }
+        })();
+    }, []);
+
+    return (
+        <Modal isVisible={isVisibleMap} setIsVisible={setIsVisibleMap}>
+            <View>
+                {location && (
+                    <MapView
+                        style={styles.mapStyles}
+                        initialRegion={location}
+                        showsUserLocation={true}
+                        onRegionChange={region => setLocation(region)}
+                    >
+                        <MapView.Marker
+                            coordinate={{
+                                latitude: location.latitude,
+                                longitude: location.longitude
+                            }}
+                            dragable
+                        />
+                    </MapView>
+                )}
+                <View style={styles.viewMapBtn}>
+                    <Button
+                        title={"Guardar ubicación"}
+                        onPress={() => {
+                            setLocationRestaurant(location);
+                            setIsVisibleMap(false);
+                            toastRef.current.show("Localización guardada correctamente");
+                        }}
+                        containerStyle={styles.saveButtonContainerStyle}
+                        buttonStyle={styles.saveButtonStyle}
+                    />
+                    <Button
+                        title={"Cancelar"}
+                        onPress={() => setIsVisibleMap(false)}
+                        containerStyle={styles.cancelButtonContainerStyle}
+                        buttonStyle={styles.cancelButtonStyle}
+                    />
+                </View>
+            </View>
+        </Modal>
     )
 };
 
@@ -282,6 +382,34 @@ const styles = StyleSheet.create({
 
     input: {
         marginBottom: 15
-    }
+    },
 
+    mapStyles: {
+        width: "100%",
+        height: 250
+    },
+
+    viewMapBtn: {
+        flexDirection: "row",
+        justifyContent: "center",
+        marginTop: 10
+    },
+
+    saveButtonContainerStyle: {
+        paddingRight: 10,
+        width: "50%"
+    },
+
+    saveButtonStyle: {
+        backgroundColor: Common.corporateColor
+    },
+
+    cancelButtonContainerStyle: {
+        paddingLeft: 5,
+        width: "50%"
+    },
+
+    cancelButtonStyle: {
+        backgroundColor: "#a60d0d"
+    }
 });
