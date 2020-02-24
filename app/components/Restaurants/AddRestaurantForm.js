@@ -5,6 +5,13 @@ import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import * as Location from "expo-location";
 import MapView from "react-native-maps";
+import uuid from "uuid/v4";
+
+import {firebaseApp} from "../../utils/FireBase";
+import firebase from "firebase/app";
+import "firebase/firestore";
+
+const db = firebase.firestore(firebaseApp);
 
 import Common, {commonStyles} from "@constants/Common";
 import {BuildIcon} from "@constants/FormsInputs";
@@ -31,6 +38,36 @@ export default function AddRestaurantForm(props) {
         setImagesSelected(imagesSelected);
         setReloadImages(false);
     }, [reloadImages]);
+
+    const uploadImagesToFirebase = async imagesArray => {
+        const imagesBlob = [];
+        await Promise.all(
+            imagesArray.map(async image => {
+                const response = await fetch(image);
+                const blob = await response.blob();
+                const ref = firebase.storage().ref("restaurant-images").child(uuid());
+                await ref.put(blob).then(result => {
+                    imagesBlob.push(result.metadata.name)
+                });
+            })
+        );
+
+        return imagesBlob;
+    };
+
+    const addRestaurant = () => {
+        if (!restaurantName || !restaurantLocation || !restaurantDescription)
+            toastRef.current.show("Todos los campos son obligatorios", 2500);
+        else if (imagesSelected.length === 0)
+            toastRef.current.show("Debe seleccionar al menos una imagen", 2500);
+        else {
+            setIsLoading(true);
+            uploadImagesToFirebase(imagesSelected).then(arrayImages => {
+                console.log(arrayImages);
+            });
+            setIsLoading(false);
+        }
+    };
 
     return (
         <ScrollView>
@@ -76,6 +113,13 @@ export default function AddRestaurantForm(props) {
                 locationRestaurant={locationRestaurant}
                 toastRef={toastRef}
             />
+
+            <Button
+                title={"Crear restaurante"}
+                onPress={() => addRestaurant()}
+                buttonStyle={styles.createRestaurantButton}
+            />
+
             <Map
                 isVisibleMap={isVisibleMap}
                 setIsVisibleMap={setIsVisibleMap}
@@ -207,7 +251,7 @@ const AddForm = (props) => {
         locationRestaurant,
         toastRef
     } = props;
-    return(
+    return (
         <View style={styles.viewForm}>
             <Input
                 label={"Nombre del restaurante"}
@@ -227,7 +271,7 @@ const AddForm = (props) => {
                     async () => {
                         let resultPermissions = await Permissions.askAsync(Permissions.LOCATION);
                         const statusPermissions = resultPermissions.permissions.location.status;
-                        if(statusPermissions !== "granted")
+                        if (statusPermissions !== "granted")
                             toastRef.current.show("Permisos de localización denegados. Activalos desde ajustes para utilizar" +
                                 " la geolocalización", 3500);
                         else
@@ -262,7 +306,7 @@ const Map = (props) => {
             let resultPermissions = await Permissions.getAsync(Permissions.LOCATION);
             const statusPermissions = resultPermissions.permissions.location.status;
 
-            if(statusPermissions === "granted") {
+            if (statusPermissions === "granted") {
                 const loc = await Location.getCurrentPositionAsync({});
                 setLocation({
                     latitude: loc.coords.latitude,
@@ -411,5 +455,10 @@ const styles = StyleSheet.create({
 
     cancelButtonStyle: {
         backgroundColor: "#a60d0d"
+    },
+
+    createRestaurantButton: {
+        backgroundColor: Common.corporateColor,
+        margin: 20
     }
 });
