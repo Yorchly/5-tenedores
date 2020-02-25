@@ -25,7 +25,7 @@ import Modal from "../Modal";
  * @constructor
  */
 export default function AddRestaurantForm(props) {
-    const {navigation, toastRef, setIsLoading} = props;
+    const {navigation, toastRef, setIsLoading, setReloadRestaurantList} = props;
     const [imagesSelected, setImagesSelected] = useState([]);
     const [reloadImages, setReloadImages] = useState(false);
     const [restaurantName, setRestaurantName] = useState("");
@@ -84,6 +84,7 @@ export default function AddRestaurantForm(props) {
                     createdBy: firebaseApp.auth().currentUser.uid
                 }).then(() => {
                     setIsLoading(false);
+                    setReloadRestaurantList(true);
                     navigation.navigate("Restaurants");
                 }).catch(error => {
                     setIsLoading(false);
