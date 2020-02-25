@@ -33,12 +33,13 @@ const styles = StyleSheet.create({
     loadingView: {
         flex: 1,
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
     }, 
 
     loadingText: {
         color: "#00a680",
         textTransform: "uppercase",
-        marginTop: 10
+        marginTop: 10,
+        textAlign: "center"
     }
-})
+});

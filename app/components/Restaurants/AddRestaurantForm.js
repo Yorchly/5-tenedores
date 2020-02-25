@@ -11,7 +11,7 @@ import {firebaseApp} from "../../utils/FireBase";
 import firebase from "firebase/app";
 import "firebase/firestore";
 
-const db = firebase.firestore(firebaseApp);
+const db = firebase.firestore();
 
 import Common, {commonStyles} from "@constants/Common";
 import {BuildIcon} from "@constants/FormsInputs";
@@ -29,16 +29,21 @@ export default function AddRestaurantForm(props) {
     const [imagesSelected, setImagesSelected] = useState([]);
     const [reloadImages, setReloadImages] = useState(false);
     const [restaurantName, setRestaurantName] = useState("");
-    const [restaurantLocation, setRestaurantLocation] = useState("");
+    const [restaurantAddress, setRestaurantAddress] = useState("");
     const [restaurantDescription, setRestaurantDescription] = useState("");
     const [isVisibleMap, setIsVisibleMap] = useState(false);
-    const [locationRestaurant, setLocationRestaurant] = useState("");
+    const [restaurantLocation, setRestaurantLocation] = useState("");
 
     useEffect(() => {
         setImagesSelected(imagesSelected);
         setReloadImages(false);
     }, [reloadImages]);
 
+    /**
+     * Upload the array of the images to storage in firebase.
+     * @param imagesArray
+     * @returns {Promise<[]>}
+     */
     const uploadImagesToFirebase = async imagesArray => {
         const imagesBlob = [];
         await Promise.all(
@@ -47,7 +52,7 @@ export default function AddRestaurantForm(props) {
                 const blob = await response.blob();
                 const ref = firebase.storage().ref("restaurant-images").child(uuid());
                 await ref.put(blob).then(result => {
-                    imagesBlob.push(result.metadata.name)
+                    imagesBlob.push(result.metadata.name);
                 });
             })
         );
@@ -55,17 +60,39 @@ export default function AddRestaurantForm(props) {
         return imagesBlob;
     };
 
+    /**
+     * Add restaurant, with the uuid of the images, to firebase database
+     */
     const addRestaurant = () => {
-        if (!restaurantName || !restaurantLocation || !restaurantDescription)
+        if (!restaurantName || !restaurantAddress || !restaurantDescription)
             toastRef.current.show("Todos los campos son obligatorios", 2500);
         else if (imagesSelected.length === 0)
             toastRef.current.show("Debe seleccionar al menos una imagen", 2500);
         else {
             setIsLoading(true);
             uploadImagesToFirebase(imagesSelected).then(arrayImages => {
-                console.log(arrayImages);
+                db.collection("restaurants").add({
+                    name: restaurantName,
+                    address: restaurantAddress,
+                    description: restaurantDescription,
+                    location: restaurantLocation,
+                    images: arrayImages,
+                    rating: 0,
+                    ratingTotal: 0,
+                    quantityVoting: 0,
+                    createdAt: new Date(),
+                    createdBy: firebaseApp.auth().currentUser.uid
+                }).then(() => {
+                    setIsLoading(false);
+                    navigation.navigate("Restaurants");
+                }).catch(error => {
+                    setIsLoading(false);
+                    toastRef.current.show(error);
+                });
+            }).catch(error => {
+                setIsLoading(false);
+                toastRef.current.show(error);
             });
-            setIsLoading(false);
         }
     };
 
@@ -107,10 +134,10 @@ export default function AddRestaurantForm(props) {
             </View>
             <AddForm
                 setRestaurantName={setRestaurantName}
-                setRestaurantLocation={setRestaurantLocation}
+                setRestaurantAddress={setRestaurantAddress}
                 setRestaurantDescription={setRestaurantDescription}
                 setIsVisibleMap={setIsVisibleMap}
-                locationRestaurant={locationRestaurant}
+                restaurantLocation={restaurantLocation}
                 toastRef={toastRef}
             />
 
@@ -123,7 +150,7 @@ export default function AddRestaurantForm(props) {
             <Map
                 isVisibleMap={isVisibleMap}
                 setIsVisibleMap={setIsVisibleMap}
-                setLocationRestaurant={setLocationRestaurant}
+                setRestaurantLocation={setRestaurantLocation}
                 toastRef={toastRef}
             />
 
@@ -245,10 +272,10 @@ const UploadImage = (props) => {
 const AddForm = (props) => {
     const {
         setRestaurantName,
-        setRestaurantLocation,
+        setRestaurantAddress,
         setRestaurantDescription,
         setIsVisibleMap,
-        locationRestaurant,
+        restaurantLocation,
         toastRef
     } = props;
     return (
@@ -263,11 +290,11 @@ const AddForm = (props) => {
                 label={"Dirección del restaurante"}
                 placeholder={"Dirección"}
                 containerStyle={styles.input}
-                onChange={e => setRestaurantLocation(e.nativeEvent.text)}
+                onChange={e => setRestaurantAddress(e.nativeEvent.text)}
                 rightIcon={BuildIcon(
                     "map-marker",
                     Common.skipArgument,
-                    locationRestaurant ? Common.corporateColor : Common.greyColor,
+                    restaurantLocation ? Common.corporateColor : Common.greyColor,
                     async () => {
                         let resultPermissions = await Permissions.askAsync(Permissions.LOCATION);
                         const statusPermissions = resultPermissions.permissions.location.status;
@@ -298,7 +325,7 @@ const AddForm = (props) => {
  * @constructor
  */
 const Map = (props) => {
-    const {isVisibleMap, setIsVisibleMap, setLocationRestaurant, toastRef} = props;
+    const {isVisibleMap, setIsVisibleMap, setRestaurantLocation, toastRef} = props;
     const [location, setLocation] = useState(null);
 
     useEffect(() => {
@@ -341,7 +368,7 @@ const Map = (props) => {
                     <Button
                         title={"Guardar ubicación"}
                         onPress={() => {
-                            setLocationRestaurant(location);
+                            setRestaurantLocation(location);
                             setIsVisibleMap(false);
                             toastRef.current.show("Localización guardada correctamente");
                         }}
