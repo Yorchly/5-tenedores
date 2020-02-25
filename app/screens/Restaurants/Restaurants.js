@@ -33,8 +33,7 @@ export default function Restaurants(props) {
         setReloadRestaurantList(false);
         db.collection("restaurants")
             .get()
-            .then((snap) =>
-            {
+            .then((snap) => {
                 setTotalRestaurants(snap.size);
             });
 
@@ -52,9 +51,9 @@ export default function Restaurants(props) {
                     setStartRestaurants(response.docs[response.docs.length - 1]);
 
                     response.forEach(doc => {
-                       let restaurant = doc.data();
-                       restaurant.id = doc.id;
-                       resultRestaurants.push({restaurant});
+                        let restaurant = doc.data();
+                        restaurant.id = doc.id;
+                        resultRestaurants.push({restaurant});
                     });
 
                     setRestaurants(resultRestaurants);
@@ -62,11 +61,36 @@ export default function Restaurants(props) {
         })();
 
     }, [reloadRestaurantList]);
-    
+
+    const handleMore = async () => {
+        const resultRestaurants = [];
+        restaurants.length < totalRestaurants && setIsLoading(true);
+
+        const restaurantsDb = db.collection("restaurants")
+            .orderBy("createdAt", "desc")
+            .startAfter(startRestaurants.data().createdAt)
+            .limit(limitRestaurant);
+
+        await restaurantsDb.get().then(response => {
+            if (response.docs.length > 0)
+                setStartRestaurants(response.docs[response.docs.length - 1]);
+            else
+                setIsLoading(false);
+
+            response.forEach(doc => {
+                let restaurant = doc.data();
+                restaurant.id = doc.id;
+                resultRestaurants.push({restaurant});
+            });
+
+            setRestaurants([...restaurants, ...resultRestaurants]);
+        });
+    };
+
     return (
         // flex = 1 is needed when you use ActionButton component
         <View style={commonStyles.view}>
-            <ListRestaurants restaurants={restaurants} isLoading={isLoading}/>
+            <ListRestaurants restaurants={restaurants} isLoading={isLoading} handleMore={handleMore}/>
             {user && <AddRestaurantButton navigation={navigation} setReloadRestaurantList={setReloadRestaurantList}/>}
         </View>
     )
