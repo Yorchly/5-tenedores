@@ -13,7 +13,7 @@ export default function ListRestaurants(props) {
                     renderItem={restaurant => <Restaurant restaurant={restaurant}/>}
                     keyExtractor={(item, index) => index.toString()}
                     onEndReached={handleMore}
-                    onEndReachedThreshold={0}
+                    onEndReachedThreshold={0.1}
                     ListFooterComponent={<FooterList isLoading={isLoading}/>}
                 />
             ) : (
